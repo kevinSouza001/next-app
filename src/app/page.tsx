@@ -1,95 +1,62 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { HStack, Heading, Stack, Table, Button } from "@chakra-ui/react"
+import {
+  PaginationItems,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "@/components/ui/pagination"
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <Stack width="full" gap="5">
+      <Heading
+      size="xl">WorkList
+      <Button> + Adicionar Tarefa</Button>
+      </Heading>
+      <Table.Root size="sm" variant="outline" striped>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>Tarefas</Table.ColumnHeader>
+            <Table.ColumnHeader>Responsável</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">Prioridade</Table.ColumnHeader>
+            <Table.ColumnHeader>Dt. Pedido </Table.ColumnHeader>
+            <Table.ColumnHeader>Status</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">Dt. Previsão</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">Dt. Finalização</Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {items.map((item) => (
+            <Table.Row key={item.id}>
+              <Table.Cell>{item.task}</Table.Cell>
+              <Table.Cell>{item.name}</Table.Cell>
+              <Table.Cell textAlign="end">{item.priority}</Table.Cell>
+              <Table.Cell>{item.date}</Table.Cell>
+              <Table.Cell>{item.status}</Table.Cell>
+              <Table.Cell textAlign="end">{item.dt_previsao}</Table.Cell>
+              <Table.Cell textAlign="end">{item.dt_finalizacao}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      <PaginationRoot count={items.length * 5} pageSize={5} page={1}>
+        <HStack wrap="wrap">
+          <PaginationPrevTrigger />
+          <PaginationItems />
+          <PaginationNextTrigger />
+        </HStack>
+      </PaginationRoot>
+    </Stack>
+  )
 }
+
+const items = [
+  { id: 1,task:1, name: "Joe", priority: "Alta",date:"10/10/2024", status: "Vigente",dt_previsao:"10/10/2024", dt_finalizacao: "10/01/2025" },
+  { id: 2,task:2, name: "Alan", priority: "Média",date:"10/10/2024", status: "Vigente",dt_previsao:"10/10/2024", dt_finalizacao: "10/01/2025" },
+  { id: 3,task:3, name: "Brad", priority: "Alta", date:"10/10/2024",status: "Vigente",dt_previsao:"10/10/2024", dt_finalizacao: "10/01/2025" },
+  { id: 4,task:4, name: "Ana", priority: "Alta", date:"10/10/2024",status: "Vigente",dt_previsao:"10/10/2024", dt_finalizacao: "10/01/2025" },
+  { id: 5,task:5, name: "Maria", priority: "Alta", date:"10/10/2024",status: "Vigente",dt_previsao:"10/10/2024", dt_finalizacao: "10/01/2025" },
+]
