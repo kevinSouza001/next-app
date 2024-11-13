@@ -1,21 +1,48 @@
 "use client";
+// import { HStack, Heading, Stack, Table, Button, Input} from "@chakra-ui/react"
+import styled from 'styled-components';
+import {  Heading, Stack, Table } from "@chakra-ui/react"
+import { Field } from "@/components/ui/field"
+// import {
+//   PaginationItems,
+//   PaginationNextTrigger,
+//   PaginationPrevTrigger,
+//   PaginationRoot,
+// } from "@/components/ui/pagination"
 
-import { HStack, Heading, Stack, Table, Button } from "@chakra-ui/react"
-import {
-  PaginationItems,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-} from "@/components/ui/pagination"
+const AddTaskButton = styled.button`
+  width: 100%;
+  max-width: 150px;
+  background-color: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #2980b9;
+  }
+`;
 
 export default function Home() {
   return (
-    <Stack width="full" gap="5">
+    <Stack
+      width="full"
+      height="100vh"           // Define a altura da tela completa para centralização vertical
+      justifyContent="top"   // Centraliza verticalmente
+      alignItems="center"       // Centraliza horizontalmente
+      padding="4"               // Padding opcional para dar um espaço nas bordas
+      gap="5"
+    >
+
+    <Stack gap="5">
+      <Field alignItems="center">
+      <AddTaskButton> + Add Tarefa</AddTaskButton>
+      </Field>
       <Heading
-      size="xl">WorkList
-      <Button> + Adicionar Tarefa</Button>
+      size="xl">Lista de Tarefas
       </Heading>
-      <Table.Root size="sm" variant="outline" striped>
+      <Table.Root size="sm" maxWidth="600px" interactive>
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader>Tarefas</Table.ColumnHeader>
@@ -41,14 +68,15 @@ export default function Home() {
           ))}
         </Table.Body>
       </Table.Root>
+      </Stack>
 
-      <PaginationRoot count={items.length * 5} pageSize={5} page={1}>
+      {/* <PaginationRoot count={items.length * 5} pageSize={5} page={1}>
         <HStack wrap="wrap">
           <PaginationPrevTrigger />
           <PaginationItems />
           <PaginationNextTrigger />
         </HStack>
-      </PaginationRoot>
+      </PaginationRoot> */}
     </Stack>
   )
 }
