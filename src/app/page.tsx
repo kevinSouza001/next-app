@@ -2,7 +2,7 @@
 // import { HStack, Heading, Stack, Table, Button, Input} from "@chakra-ui/react"
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Heading,
   Stack,
@@ -11,6 +11,7 @@ import {
   Box,
   Input,
   Flex,
+  createListCollection,
 } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import {
@@ -24,6 +25,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import {
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/ui/select";
 
 import { useState } from "react";
 
@@ -52,6 +61,8 @@ export default function Home() {
       padding="4"
       gap="5"
     >
+      {/* ========= MODAL =========*/}
+
       <DialogRoot lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
         <DialogTrigger asChild>
           <AddTaskButton> + Add tarefa</AddTaskButton>
@@ -66,10 +77,23 @@ export default function Home() {
                 <Field>Responsável</Field>
                 <Input className="peer" placeholder="" />
               </Box>
+
               <Box pos="relative" w="full" maxW="200px">
                 <Field>Status</Field>
-                <Input className="peer" placeholder="" />
+                <SelectRoot collection={frameworks}>
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Selecione o status"></SelectValueText>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {frameworks.items.map((status) => (
+                      <SelectItem item={status} key={status.value}>
+                        {status.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
               </Box>
+
               <Box pos="relative" w="full" maxW="200px">
                 <Field>Data do pedido</Field>
                 <Input className="peer" type="date" />
@@ -82,7 +106,7 @@ export default function Home() {
                 <Field>Descrição</Field>
                 <Input className="peer" placeholder="" height="200px" />
               </Box>
-              </Flex>
+            </Flex>
           </DialogBody>
           <DialogFooter>
             <DialogActionTrigger asChild>
@@ -94,17 +118,16 @@ export default function Home() {
         </DialogContent>
       </DialogRoot>
 
+      {/* ========= TABELA =========*/}
       <Stack gap="5">
         <Field alignItems="center"></Field>
         <Heading size="xl">Lista de Tarefas</Heading>
         <Table.Root size="sm" maxWidth="600px" interactive>
           <Table.Header>
             <Table.Row>
-            <Table.ColumnHeader w="6">
-              <Checkbox
-                
-              />
-            </Table.ColumnHeader>
+              <Table.ColumnHeader w="6">
+                <Checkbox />
+              </Table.ColumnHeader>
               <Table.ColumnHeader>Tarefas</Table.ColumnHeader>
               <Table.ColumnHeader>Responsável</Table.ColumnHeader>
               <Table.ColumnHeader textAlign="end">
@@ -123,7 +146,9 @@ export default function Home() {
           <Table.Body>
             {items.map((item) => (
               <Table.Row key={item.id}>
-                <Table.Cell><Checkbox/></Table.Cell> 
+                <Table.Cell>
+                  <Checkbox />
+                </Table.Cell>
                 <Table.Cell>{item.task}</Table.Cell>
                 <Table.Cell>{item.name}</Table.Cell>
                 <Table.Cell textAlign="end">{item.priority}</Table.Cell>
@@ -192,3 +217,12 @@ const items = [
     dt_finalizacao: "10/01/2025",
   },
 ];
+
+const frameworks = createListCollection({
+  items: [
+    { label: "React.js", value: "react" },
+    { label: "Vue.js", value: "vue" },
+    { label: "Angular", value: "angular" },
+    { label: "Svelte", value: "svelte" },
+  ],
+});
